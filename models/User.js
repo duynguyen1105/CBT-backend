@@ -5,6 +5,12 @@ const bcrypt = require('bcryptjs')
 const ROLES = ['SUPER_ADMIN', 'ADMIN_WORKSPACE', 'USER']
 const GENDER = ['MALE', 'FEMALE']
 
+const emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+
+const validateEmail = function (email) {
+  return emailPattern.test(email)
+}
+
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -17,6 +23,8 @@ const userSchema = new mongoose.Schema(
       unique: true,
       trim: true,
       required: [true, 'Email must be required'],
+      validate: [validateEmail, 'Please input a valid email address'],
+      match: [emailPattern, 'Please input a valid email address'],
     },
     password: {
       type: String,
@@ -26,7 +34,11 @@ const userSchema = new mongoose.Schema(
     },
     role: { type: String, enum: ROLES, default: 'USER' },
     avatar: { type: String },
-    gender: { type: String, enum: GENDER },
+    gender: {
+      type: String,
+      enum: GENDER,
+      required: [true, 'Gender must be required'],
+    },
     nationality: { type: String },
     workspace: {
       type: [mongoose.Schema.Types.ObjectId],

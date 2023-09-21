@@ -162,6 +162,22 @@ exports.deleteUser = async (req, res, next) => {
   }
 }
 
+exports.deleteUsers = async (req, res, next) => {
+  try {
+    const ids = req.body.ids
+    await User.deleteMany({
+      _id: { $in: ids },
+    })
+    res.status(200).json({
+      status: 'Success',
+      message: 'Users has been deleted',
+    })
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+}
+
 exports.getInfoUser = async (req, res, next) => {
   try {
     const { userId } = req.params

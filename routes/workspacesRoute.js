@@ -6,7 +6,7 @@ const {
   updateWorkspace,
   deleteWorkspace,
   getWorkspace,
-} = require('../controllers/workspaceController')
+} = require('../controllers/workspacesController')
 const { checkAuth } = require('../middlewares/checkAuth')
 const { checkWorkspace } = require('../middlewares/checkWorkspace')
 
@@ -20,6 +20,5 @@ Router.route('/:workspaceDomain')
   .get(checkAuth('ADMIN_WORKSPACE'), checkWorkspace, getWorkspace)
   .put(checkAuth('ADMIN_WORKSPACE'), checkWorkspace, updateWorkspace)
   .delete(checkAuth('SUPER_ADMIN'), deleteWorkspace)
-
 
 module.exports = Router

@@ -7,7 +7,7 @@ const {
   deleteQuestion,
   deleteQuestions,
   getInfoQuestion,
-} = require('../controllers/questionController')
+} = require('../controllers/questionsController')
 const { checkAuth } = require('../middlewares/checkAuth')
 const { checkWorkspace } = require('../middlewares/checkWorkspace')
 

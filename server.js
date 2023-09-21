@@ -12,9 +12,9 @@ const app = express()
 
 // Import Routes
 const authRoute = require('./routes/guestRoute')
-const workspaceRoute = require('./routes/workspaceRoute')
-const userRoute = require('./routes/userRoute')
-const questionRoute = require('./routes/questionRoute')
+const workspacesRoute = require('./routes/workspacesRoute')
+const usersRoute = require('./routes/usersRoute')
+const questionsRoute = require('./routes/questionsRoute')
 
 const { errorHandler } = require('./middlewares/errorHandler')
 
@@ -28,9 +28,9 @@ app.use(express.json())
 
 // Mount routes
 app.use('/api/v1/auth', authRoute)
-app.use('/api/v1/workspaces', workspaceRoute)
-app.use('/api/v1/users', userRoute)
-app.use('/api/v1/question', questionRoute)
+app.use('/api/v1/workspaces', workspacesRoute)
+app.use('/api/v1/users', usersRoute)
+app.use('/api/v1/questions', questionsRoute)
 
 // Error Handling
 app.all('*', (req, res, next) => {
