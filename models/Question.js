@@ -8,27 +8,28 @@ const TYPE_QUESTION = [
   'DROPDOWN_SELECT',
   'FILL_IN_THE_GAPS',
   'ESSAY',
+  'RECORD',
 ]
 const STATUS_QUESTION = ['DRAFT', 'PUBLISHED']
 
 const answerSchema = new mongoose.Schema({
   content: {
     type: String,
-    required: [true, 'Content must be required'],
   },
   score: {
     type: Number,
-    required: [true, 'Score must be required'],
   },
   penaltyScore: {
     type: Number,
   },
-  gradingGuide: {
-    type: String,
+  order: {
+    type: Number,
+  },
+  scorePercent: {
+    type: Number,
   },
   isCorrect: {
     type: Boolean,
-    required: [true, 'IsCorrect must be required'],
   },
   feedback: {
     type: String,
@@ -37,19 +38,13 @@ const answerSchema = new mongoose.Schema({
 
 const questionSchema = new mongoose.Schema(
   {
-    questionTitle: {
+    title: {
       type: String,
       required: [true, 'Title must be required'],
     },
-    questionContent: {
+    content: {
       type: String,
       required: [true, 'Content must be required'],
-    },
-    status: {
-      type: String,
-      enum: STATUS_QUESTION,
-      default: 'DRAFT',
-      required: [true, 'Status must be required'],
     },
     category: {
       type: String,
@@ -57,7 +52,7 @@ const questionSchema = new mongoose.Schema(
       default: 'TOEIC',
       required: [true, 'Category must be required'],
     },
-    questionType: {
+    type: {
       type: String,
       enum: TYPE_QUESTION,
       default: 'SELECT_ONE',
@@ -68,7 +63,9 @@ const questionSchema = new mongoose.Schema(
       ref: 'Workspace',
     },
     answer: [answerSchema],
+    blankAnswer: [[answerSchema]],
     answerContent: { type: String },
+    label: { type: [String] },
     gradingGuide: { type: String },
     score: { type: Number },
   },

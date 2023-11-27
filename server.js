@@ -15,6 +15,8 @@ const authRoute = require('./routes/guestRoute')
 const workspacesRoute = require('./routes/workspacesRoute')
 const usersRoute = require('./routes/usersRoute')
 const questionsRoute = require('./routes/questionsRoute')
+const categoriesRoute = require('./routes/categoriesRoute')
+const labelsRoute = require('./routes/labelsRoute')
 
 const { errorHandler } = require('./middlewares/errorHandler')
 
@@ -31,6 +33,8 @@ app.use('/api/v1/auth', authRoute)
 app.use('/api/v1/workspaces', workspacesRoute)
 app.use('/api/v1/users', usersRoute)
 app.use('/api/v1/questions', questionsRoute)
+app.use('/api/v1/categories', categoriesRoute)
+app.use('/api/v1/labels', labelsRoute)
 
 // Error Handling
 app.all('*', (req, res, next) => {

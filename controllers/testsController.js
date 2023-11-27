@@ -1,7 +1,7 @@
 const Workspace = require('../models/Workspace')
-const Question = require('../models/Question')
+const Test = require('../models/Test')
 
-exports.getAllQuestionsOfWorkspace = async (req, res, next) => {
+exports.getAllTestsOfWorkspace = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1
     const perPage = parseInt(req.query.limit) || 10
@@ -13,7 +13,7 @@ exports.getAllQuestionsOfWorkspace = async (req, res, next) => {
     const { workspaceDomain } = req.params
     const { _id } = await Workspace.findOne({ domain: workspaceDomain })
 
-    const allQuestions = await Question.find({
+    const allTests = await Test.find({
       workspace: _id,
       title: { $regex: search, $options: 'i' },
     })
@@ -21,15 +21,15 @@ exports.getAllQuestionsOfWorkspace = async (req, res, next) => {
       .skip(perPage * page - perPage)
       .limit(perPage)
 
-    const total = await Question.countDocuments({
+    const total = await Test.countDocuments({
       workspace: _id,
       title: { $regex: search, $options: 'i' },
     })
 
     res.status(200).json({
       status: 'Success',
-      results: allQuestions.length,
-      data: allQuestions,
+      results: allTests.length,
+      data: allTests,
       total,
       current: page,
       pages: Math.ceil(total / perPage),
@@ -40,19 +40,19 @@ exports.getAllQuestionsOfWorkspace = async (req, res, next) => {
   }
 }
 
-exports.createQuestion = async (req, res, next) => {
+exports.createTest = async (req, res, next) => {
   try {
     const { workspaceDomain } = req.params
     const { _id } = await Workspace.findOne({ domain: workspaceDomain })
 
-    const question = await Question.create({
+    const test = await Test.create({
       ...req.body,
       workspace: _id,
     })
 
     res.status(200).json({
       status: 'Success',
-      data: { question },
+      data: { test },
     })
   } catch (error) {
     console.log(error)
@@ -60,16 +60,16 @@ exports.createQuestion = async (req, res, next) => {
   }
 }
 
-exports.updateQuestion = async (req, res, next) => {
+exports.updateTest = async (req, res, next) => {
   try {
-    const question = await Question.findByIdAndUpdate(
-      req.params.questionId,
+    const test = await Test.findByIdAndUpdate(
+      req.params.testId,
       { ...req.body },
       { new: true, runValidator: true }
     )
     res.status(200).json({
       status: 'Success',
-      data: { question },
+      data: { test },
     })
   } catch (error) {
     console.log(error)
@@ -77,15 +77,15 @@ exports.updateQuestion = async (req, res, next) => {
   }
 }
 
-exports.deleteQuestions = async (req, res, next) => {
+exports.deleteTests = async (req, res, next) => {
   try {
     const ids = req.body.ids
-    await Question.deleteMany({
+    await Test.deleteMany({
       _id: { $in: ids },
     })
     res.status(200).json({
       status: 'Success',
-      message: 'Questions has been deleted',
+      message: 'Tests has been deleted',
     })
   } catch (error) {
     console.log(error)
@@ -93,12 +93,12 @@ exports.deleteQuestions = async (req, res, next) => {
   }
 }
 
-exports.deleteQuestion = async (req, res, next) => {
+exports.deleteTest = async (req, res, next) => {
   try {
-    await Question.findByIdAndRemove(req.params.questionId)
+    await Test.findByIdAndRemove(req.params.testId)
     res.status(200).json({
       status: 'Success',
-      message: 'Question has been deleted',
+      message: 'Test has been deleted',
     })
   } catch (error) {
     console.log(error)
@@ -106,12 +106,12 @@ exports.deleteQuestion = async (req, res, next) => {
   }
 }
 
-exports.getInfoQuestion = async (req, res, next) => {
+exports.getInfoTest = async (req, res, next) => {
   try {
-    const question = await Question.findById(req.params.questionId)
+    const test = await Test.findById(req.params.testId)
     res.status(200).json({
       status: 'Success',
-      data: { question },
+      data: { test },
     })
   } catch (error) {
     console.log(error)
