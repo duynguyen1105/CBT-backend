@@ -51,7 +51,6 @@ const userSchema = new mongoose.Schema(
 
 userSchema.pre('save', async function (next) {
   try {
-    console.log('entered')
     // the user schema is instantiated
     // check if the user has been modified to know if the password has already been hashed
     // Generate a salt
@@ -60,7 +59,6 @@ userSchema.pre('save', async function (next) {
     const passwordHash = await bcrypt.hash(this.password, salt)
     // Re-assign hashed version over original, plain text password
     this.password = passwordHash
-    console.log('exited')
     next()
   } catch (error) {
     next(error)

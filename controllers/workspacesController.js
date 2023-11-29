@@ -32,7 +32,7 @@ exports.getAllWorkspaces = async (req, res, next) => {
       pages: Math.ceil(total / perPage),
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -60,7 +60,7 @@ exports.createWorkspace = async (req, res, next) => {
       data: { workspace },
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -89,7 +89,7 @@ exports.updateWorkspace = async (req, res, next) => {
       data: { workspace },
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -118,7 +118,7 @@ exports.deleteWorkspace = async (req, res, next) => {
       message: 'Workspace has been deleted',
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -139,7 +139,7 @@ exports.getWorkspace = async (req, res, next) => {
       data: { workspace },
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }

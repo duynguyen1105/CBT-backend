@@ -22,7 +22,7 @@ exports.register = async (req, res, next) => {
       data: { token, userName: user.name, email: user.email },
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -50,7 +50,7 @@ exports.login = async (req, res, next) => {
       return next(err)
     }
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }

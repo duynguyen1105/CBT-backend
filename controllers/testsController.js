@@ -35,7 +35,7 @@ exports.getAllTestsOfWorkspace = async (req, res, next) => {
       pages: Math.ceil(total / perPage),
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -55,7 +55,7 @@ exports.createTest = async (req, res, next) => {
       data: { test },
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -72,7 +72,7 @@ exports.updateTest = async (req, res, next) => {
       data: { test },
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -88,7 +88,7 @@ exports.deleteTests = async (req, res, next) => {
       message: 'Tests has been deleted',
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -101,7 +101,7 @@ exports.deleteTest = async (req, res, next) => {
       message: 'Test has been deleted',
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -114,7 +114,7 @@ exports.getInfoTest = async (req, res, next) => {
       data: { test },
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }

@@ -35,7 +35,7 @@ exports.getAllQuestionsOfWorkspace = async (req, res, next) => {
       pages: Math.ceil(total / perPage),
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -55,7 +55,7 @@ exports.createQuestion = async (req, res, next) => {
       data: { question },
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -72,7 +72,7 @@ exports.updateQuestion = async (req, res, next) => {
       data: { question },
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -88,7 +88,7 @@ exports.deleteQuestions = async (req, res, next) => {
       message: 'Questions has been deleted',
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -101,7 +101,7 @@ exports.deleteQuestion = async (req, res, next) => {
       message: 'Question has been deleted',
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -114,7 +114,7 @@ exports.getInfoQuestion = async (req, res, next) => {
       data: { question },
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }

@@ -14,7 +14,7 @@ exports.getAllCategories = async (req, res, next) => {
       data: categories,
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -46,7 +46,7 @@ exports.createCategory = async (req, res, next) => {
       })
     }
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -59,7 +59,7 @@ exports.deleteCategory = async (req, res, next) => {
       message: 'Category has been deleted',
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }

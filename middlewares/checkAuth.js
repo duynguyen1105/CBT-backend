@@ -12,7 +12,6 @@ exports.checkAuth = (userRole) => {
     }
     const token = Authorization.replace('Bearer ', '')
     const { userId } = jwt.verify(token, process.env.APP_SECRET)
-    console.log(userId)
     const { role } = await User.findById(userId)
     if (!userRole.includes(role) === true) {
       const err = new Error('You are not allowed to do it')

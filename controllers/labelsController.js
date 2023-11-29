@@ -14,7 +14,7 @@ exports.getAllLabels = async (req, res, next) => {
       data: labels,
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -45,7 +45,7 @@ exports.createLabel = async (req, res, next) => {
       })
     }
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -58,7 +58,7 @@ exports.deleteLabel = async (req, res, next) => {
       message: 'Label has been deleted',
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }

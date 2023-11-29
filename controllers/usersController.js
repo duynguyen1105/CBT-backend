@@ -40,7 +40,7 @@ exports.getUsersOfWorkspace = async (req, res, next) => {
       pages: Math.ceil(total / perPage),
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -75,7 +75,7 @@ exports.addUserToWorkspace = async (req, res, next) => {
       data: { user },
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -118,7 +118,7 @@ exports.addAdminForWorkspace = async (req, res, next) => {
       data: { user },
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -144,7 +144,7 @@ exports.updateUser = async (req, res, next) => {
       return next(err)
     }
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -157,7 +157,7 @@ exports.deleteUser = async (req, res, next) => {
       message: 'User has been deleted',
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -173,7 +173,7 @@ exports.deleteUsers = async (req, res, next) => {
       message: 'Users has been deleted',
     })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
@@ -195,7 +195,7 @@ exports.getInfoUser = async (req, res, next) => {
       return next(err)
     }
   } catch (error) {
-    console.log(error)
+    console.error(error)
     next(error)
   }
 }
