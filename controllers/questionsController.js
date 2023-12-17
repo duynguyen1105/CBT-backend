@@ -52,7 +52,7 @@ exports.createQuestion = async (req, res, next) => {
 
     res.status(200).json({
       status: 'Success',
-      data: { question },
+      data: question,
     })
   } catch (error) {
     console.error(error)
@@ -111,7 +111,7 @@ exports.getInfoQuestion = async (req, res, next) => {
     const question = await Question.findById(req.params.questionId)
     res.status(200).json({
       status: 'Success',
-      data: { question },
+      data: question,
     })
   } catch (error) {
     console.error(error)

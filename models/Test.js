@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Question = require('./Question')
 
 const timeSetting = new mongoose.Schema({
   startTime: {
@@ -40,8 +41,8 @@ const testSchema = new mongoose.Schema(
       afterSubmit: displaySetting,
       afterDeadline: displaySetting,
     },
-    content: {
-      type: [mongoose.Schema.Types.ObjectId],
+    questions: {
+      type: [Question.schema],
       default: [],
       ref: 'Question',
     },
