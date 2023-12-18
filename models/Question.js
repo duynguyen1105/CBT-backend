@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 
-const CATEGORY_QUESTION = ['TOEIC', 'IELTS']
 const TYPE_QUESTION = [
   'SELECT_ONE',
   'SELECT_MANY',
@@ -10,7 +9,6 @@ const TYPE_QUESTION = [
   'ESSAY',
   'RECORD',
 ]
-const STATUS_QUESTION = ['DRAFT', 'PUBLISHED']
 
 const answerSchema = new mongoose.Schema({
   content: {
@@ -48,8 +46,6 @@ const questionSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: CATEGORY_QUESTION,
-      default: 'TOEIC',
       required: [true, 'Category must be required'],
     },
     type: {
