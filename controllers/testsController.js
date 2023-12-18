@@ -111,7 +111,7 @@ exports.getInfoTest = async (req, res, next) => {
     const test = await Test.findById(req.params.testId)
     res.status(200).json({
       status: 'Success',
-      data: { test },
+      data: test,
     })
   } catch (error) {
     console.error(error)

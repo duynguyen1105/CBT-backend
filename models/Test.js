@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Question = require('./Question')
+const ClassModel = require('./Class')
 
 const timeSetting = new mongoose.Schema({
   startTime: {
@@ -45,6 +46,11 @@ const testSchema = new mongoose.Schema(
       type: [Question.schema],
       default: [],
       ref: 'Question',
+    },
+    classAssigned: {
+      type: [ClassModel.schema],
+      default: [],
+      ref: 'Class',
     },
   },
   { timestamps: true }
