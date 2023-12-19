@@ -45,6 +45,18 @@ const userSchema = new mongoose.Schema(
       default: [],
       ref: 'Workspace',
     },
+    // tests: [testSchema],
+    tests: {
+      type: [
+        {
+          test: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Test',
+          },
+          userAnswer: mongoose.Schema.Types.Mixed,
+        },
+      ],
+    },
   },
   { timestamps: true }
 )

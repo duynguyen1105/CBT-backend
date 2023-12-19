@@ -1,5 +1,6 @@
 const Workspace = require('../models/Workspace')
 const Test = require('../models/Test')
+const User = require('../models/User')
 
 exports.getAllTestsOfWorkspace = async (req, res, next) => {
   try {
@@ -50,9 +51,26 @@ exports.createTest = async (req, res, next) => {
       workspace: _id,
     })
 
+    const classAssigned = req.body.classAssigned
+    classAssigned.forEach(({ users }) => {
+      users.forEach(async (user) => {
+        const currentUser = await User.findById(user._id)
+        currentUser.tests = [
+          ...(currentUser.tests || []),
+          { test: test._id, userAnswer: null },
+        ]
+
+        await User.findByIdAndUpdate(
+          user._id,
+          { ...currentUser },
+          { new: true, runValidator: true }
+        )
+      })
+    })
+
     res.status(200).json({
       status: 'Success',
-      data: { test },
+      data: test,
     })
   } catch (error) {
     console.error(error)
@@ -112,6 +130,44 @@ exports.getInfoTest = async (req, res, next) => {
     res.status(200).json({
       status: 'Success',
       data: test,
+    })
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+}
+
+exports.getTestsOfUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId).populate('tests.test')
+    res.status(200).json({
+      status: 'Success',
+      data: user.tests,
+    })
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+}
+
+exports.doingTest = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId)
+    const userTests = user.tests.map((test) => {
+      if (test.test.equals(req.params.testId)) {
+        console.log('haha')
+        test.userAnswer = req.body
+      }
+      return test
+    })
+    await User.findByIdAndUpdate(
+      req.params.userId,
+      { ...user, tests: userTests },
+      { new: true, runValidator: true }
+    )
+    res.status(200).json({
+      status: 'Success',
+      data: userTests,
     })
   } catch (error) {
     console.error(error)

@@ -7,6 +7,8 @@ const {
   deleteTest,
   deleteTests,
   getInfoTest,
+  getTestsOfUser,
+  doingTest,
 } = require('../controllers/testsController')
 const { checkAuth } = require('../middlewares/checkAuth')
 const { checkWorkspace } = require('../middlewares/checkWorkspace')
@@ -23,6 +25,18 @@ Router.route('/:workspaceDomain/delete').delete(
   checkAuth('ADMIN_WORKSPACE'),
   checkWorkspace,
   deleteTests
+)
+
+Router.route('/:workspaceDomain/myTests/:userId').get(
+  checkAuth(['USER', 'ADMIN_WORKSPACE']),
+  checkWorkspace,
+  getTestsOfUser
+)
+
+Router.route('/:workspaceDomain/doingTest/:userId/:testId').put(
+  checkAuth(['USER', 'ADMIN_WORKSPACE']),
+  checkWorkspace,
+  doingTest
 )
 
 Router.route('/:workspaceDomain/:testId')
