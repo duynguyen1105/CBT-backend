@@ -1,5 +1,7 @@
 const Workspace = require('../models/Workspace')
 const User = require('../models/User')
+const Question = require('../models/Question')
+const Test = require('../models/Test')
 
 exports.getAllWorkspaces = async (req, res, next) => {
   try {
@@ -129,14 +131,25 @@ exports.getWorkspace = async (req, res, next) => {
     const workspace = await Workspace.findOne({ domain: workspaceDomain })
       .populate('adminWorkspace')
       .populate('ownerWorkspace')
+    const usersOfWorkspace = await User.find({ workspace: workspace._id })
+    const questionsOfWorkspace = await Question.find({
+      workspace: workspace._id,
+    })
+    const testsOfWorkspace = await Test.find({ workspace: workspace._id })
     if (!workspace) {
       const err = new Error('Can not found this workspace')
       err.statusCode = 400
       return next(err)
     }
+    const result = {
+      ...workspace._doc,
+      totalUsers: usersOfWorkspace.length,
+      totalQuestions: questionsOfWorkspace.length,
+      totalTests: testsOfWorkspace.length,
+    }
     res.status(200).json({
       status: 'Success',
-      data: { workspace },
+      data: result,
     })
   } catch (error) {
     console.error(error)
