@@ -40,6 +40,32 @@ exports.getAllQuestionsOfWorkspace = async (req, res, next) => {
   }
 }
 
+exports.getRandomQuestionsByCategoryAndType = async (req, res, next) => {
+  try {
+    const { category, label, size } = req.query
+    const listCategory = category ? category.split(',') : []
+    const listLabel = label ? label.split(',') : []
+
+    const questions = await Question.aggregate([
+      {
+        $match: {
+          category: category ? { $in: listCategory } : { $exists: true },
+          label: label ? { $in: listLabel } : { $exists: true },
+        },
+      },
+      { $sample: { size: size ? Number(size) : 10 } },
+    ])
+
+    res.status(200).json({
+      status: 'Success',
+      data: questions,
+    })
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+}
+
 exports.createQuestion = async (req, res, next) => {
   try {
     const { workspaceDomain } = req.params

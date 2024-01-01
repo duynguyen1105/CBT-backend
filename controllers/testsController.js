@@ -155,7 +155,6 @@ exports.doingTest = async (req, res, next) => {
     const user = await User.findById(req.params.userId)
     const userTests = user.tests.map((test) => {
       if (test.test.equals(req.params.testId)) {
-        console.log('haha')
         test.userAnswer = req.body
       }
       return test

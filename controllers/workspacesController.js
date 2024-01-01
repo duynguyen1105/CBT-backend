@@ -39,6 +39,29 @@ exports.getAllWorkspaces = async (req, res, next) => {
   }
 }
 
+exports.getWorkspacesByMonth = async (req, res, next) => {
+  try {
+    const { month, year = '2023' } = req.params
+    const startDate = new Date(year, month, 1)
+    const endDate = new Date(year, month + 1, 0)
+
+    const allWorkspaces = await Workspace.find({
+      createdAt: {
+        $gte: startDate,
+        $lt: endDate,
+      },
+    })
+    res.status(200).json({
+      status: 'Success',
+      results: allWorkspaces.length,
+      data: { allWorkspaces },
+    })
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+}
+
 exports.createWorkspace = async (req, res, next) => {
   try {
     const { userId } = req.user
