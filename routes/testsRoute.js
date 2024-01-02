@@ -9,6 +9,7 @@ const {
   getInfoTest,
   getTestsOfUser,
   doingTest,
+  countTestsByMonth,
 } = require('../controllers/testsController')
 const { checkAuth } = require('../middlewares/checkAuth')
 const { checkWorkspace } = require('../middlewares/checkWorkspace')
@@ -37,6 +38,12 @@ Router.route('/:workspaceDomain/doingTest/:userId/:testId').put(
   checkAuth(['USER', 'ADMIN_WORKSPACE']),
   checkWorkspace,
   doingTest
+)
+
+Router.route('/:workspaceDomain/countTestsByMonth').get(
+  checkAuth('ADMIN_WORKSPACE'),
+  checkWorkspace,
+  countTestsByMonth
 )
 
 Router.route('/:workspaceDomain/:testId')

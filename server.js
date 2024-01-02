@@ -19,6 +19,7 @@ const categoriesRoute = require('./routes/categoriesRoute')
 const labelsRoute = require('./routes/labelsRoute')
 const testsRoute = require('./routes/testsRoute')
 const classRoute = require('./routes/classRoute')
+const lessonRoute = require('./routes/lessonRoute')
 
 const { errorHandler } = require('./middlewares/errorHandler')
 
@@ -39,6 +40,7 @@ app.use('/api/v1/categories', categoriesRoute)
 app.use('/api/v1/labels', labelsRoute)
 app.use('/api/v1/tests', testsRoute)
 app.use('/api/v1/class', classRoute)
+app.use('/api/v1/lessons', lessonRoute)
 
 // Error Handling
 app.all('*', (req, res, next) => {
@@ -48,6 +50,10 @@ app.all('*', (req, res, next) => {
 })
 app.use(errorHandler)
 
-app.listen(port, () => {
-  console.log(`Server is running on port: ${port}`)
-})
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log(`Server is running on port: ${port}`)
+  })
+}
+
+module.exports = app

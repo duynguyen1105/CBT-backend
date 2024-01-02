@@ -41,6 +41,42 @@ exports.getAllTestsOfWorkspace = async (req, res, next) => {
   }
 }
 
+exports.countTestsByMonth = async (req, res, next) => {
+  try {
+    const { workspaceDomain } = req.params
+    const { _id } = await Workspace.findOne({ domain: workspaceDomain })
+
+    const currentDate = new Date()
+    const months = []
+    const totals = []
+
+    for (let i = 1; i <= 5; i++) {
+      const month = currentDate.getMonth() - i
+      const year = currentDate.getFullYear()
+
+      const startDate = new Date(year, month, 1)
+      const endDate = new Date(year, month + 1, 0, 23, 59, 59)
+
+      const totalTests = await Test.countDocuments({
+        workspace: _id,
+        createdAt: { $gte: startDate, $lte: endDate },
+      })
+
+      months.unshift(month)
+      totals.unshift(totalTests)
+    }
+
+    res.status(200).json({
+      status: 'Success',
+      data: totals,
+      months,
+    })
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+}
+
 exports.createTest = async (req, res, next) => {
   try {
     const { workspaceDomain } = req.params
