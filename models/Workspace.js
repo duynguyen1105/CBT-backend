@@ -20,17 +20,14 @@ const workspaceSchema = new mongoose.Schema(
       type: String,
       enum: STATUS,
       default: 'ACTIVE',
-      required: [true, 'Status must be required'],
     },
     typeWorkspace: {
       type: String,
       enum: TYPE_WORKSPACE,
       default: 'TRIAL',
-      required: [true, 'Type must be required'],
     },
     storage: {
       type: Number,
-      required: [true, 'Type must be required'],
     },
     adminWorkspace: {
       type: [mongoose.Schema.Types.ObjectId],

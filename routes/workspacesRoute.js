@@ -14,7 +14,7 @@ const Router = express.Router()
 
 Router.route('/')
   .get(checkAuth('SUPER_ADMIN'), getAllWorkspaces)
-  .post(checkAuth(['USER', 'ADMIN_WORKSPACE']), createWorkspace)
+  .post(checkAuth(['SUPER_ADMIN']), createWorkspace)
 
 Router.route('/:workspaceDomain')
   .get(checkAuth('ADMIN_WORKSPACE'), checkWorkspace, getWorkspace)

@@ -24,7 +24,7 @@ Router.route('/:workspaceDomain/:lessonId')
   .delete(checkAuth('ADMIN_WORKSPACE'), checkWorkspace, deleteLesson)
 
 Router.route('/:workspaceDomain').get(
-  checkAuth('ADMIN_WORKSPACE'),
+  checkAuth(['ADMIN_WORKSPACE', 'USER']),
   checkWorkspace,
   getAllLessons
 )

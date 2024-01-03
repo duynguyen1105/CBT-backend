@@ -21,6 +21,22 @@ exports.getAllWorkspaces = async (req, res, next) => {
       .skip(perPage * page - perPage)
       .limit(perPage)
 
+    for (const workspace of allWorkspaces) {
+      const totalUsers = await User.find({
+        workspace: workspace._id,
+      })
+      const totalQuestions = await Question.find({
+        workspace: workspace._id,
+      })
+      const totalTests = await Test.find({
+        workspace: workspace._id,
+      })
+
+      workspace._doc.totalUsers = totalUsers.length
+      workspace._doc.totalQuestions = totalQuestions.length
+      workspace._doc.totalTests = totalTests.length
+    }
+
     const total = await Workspace.countDocuments({
       name: { $regex: search, $options: 'i' },
     })
@@ -28,7 +44,7 @@ exports.getAllWorkspaces = async (req, res, next) => {
     res.status(200).json({
       status: 'Success',
       results: allWorkspaces.length,
-      data: { allWorkspaces },
+      data: allWorkspaces,
       total,
       current: page,
       pages: Math.ceil(total / perPage),
@@ -54,7 +70,7 @@ exports.getWorkspacesByMonth = async (req, res, next) => {
     res.status(200).json({
       status: 'Success',
       results: allWorkspaces.length,
-      data: { allWorkspaces },
+      data: allWorkspaces,
     })
   } catch (error) {
     console.error(error)
@@ -64,14 +80,15 @@ exports.getWorkspacesByMonth = async (req, res, next) => {
 
 exports.createWorkspace = async (req, res, next) => {
   try {
-    const { userId } = req.user
+    const { email: emailAdminWorkspace } = req.body
+    const { _id: userId } = await User.findOne({ email: emailAdminWorkspace })
     const workspace = await Workspace.create({
       ...req.body,
       adminWorkspace: [userId],
       ownerWorkspace: userId,
     })
     const adminWorkspace = await User.findById(userId).populate('workspace')
-    adminWorkspace.workspace = workspace._id
+    adminWorkspace.workspace = adminWorkspace.workspace.push(workspace._id)
     adminWorkspace.role = 'ADMIN_WORKSPACE'
 
     await User.findByIdAndUpdate(
@@ -82,7 +99,7 @@ exports.createWorkspace = async (req, res, next) => {
 
     res.status(200).json({
       status: 'Success',
-      data: { workspace },
+      data: workspace,
     })
   } catch (error) {
     console.error(error)
@@ -111,7 +128,7 @@ exports.updateWorkspace = async (req, res, next) => {
 
     res.status(200).json({
       status: 'Success',
-      data: { workspace },
+      data: workspace,
     })
   } catch (error) {
     console.error(error)
